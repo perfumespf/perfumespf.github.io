@@ -1,18 +1,363 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Franco Perfumes</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PF Perfumes · Catálogo de fragancias</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f2ea;--sf:#fffdf8;--ink:#1b1814;--mu:#76705f;--ln:#ddd5c4;--gold:#8f6f2e;--serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--sans:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#121110;--sf:#1a1917;--ink:#ece5d5;--mu:#9a927f;--ln:#2e2b26;--gold:#c9a961}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 var(--sans)}
+header{text-align:center;padding:44px 20px 26px;border-bottom:1px solid var(--ln)}
+.logo{font:600 56px/1 var(--serif);letter-spacing:.08em}.logo small{display:block;font:400 12px var(--sans);letter-spacing:.55em;margin-top:10px;color:var(--gold)}
+header p{margin:16px auto 0;max-width:520px;color:var(--mu);font-weight:300}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:22px 0 8px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{background:none;border:0;border-bottom:1.5px solid transparent;color:var(--mu);font:500 12px var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:8px 12px;cursor:pointer}
+.tabs button.on{color:var(--ink);border-color:var(--gold)}
+.tools .sp{flex:1}
+input,select{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:2px;padding:9px 12px}
+input{min-width:240px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.count{color:var(--mu);font-size:13px;padding:6px 0 18px}
+.banner{background:var(--sf);border:1px solid var(--gold);padding:10px 14px;margin-bottom:16px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:22px;padding-bottom:50px}
+.card{background:var(--sf);border:1px solid var(--ln);cursor:pointer;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
+.tile{position:relative;aspect-ratio:4/3.4;display:grid;place-items:center;color:#f1e7cf}
+.tile svg{height:72%}.tile.big{aspect-ratio:3/4}
+.gen{position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.8}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:2px;flex:1}
+.marca{margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+h3{margin:0;font:600 23px/1.15 var(--serif)}
+.meta{margin:2px 0 8px;color:var(--mu);font-size:13px}
+.pills{display:flex;flex-wrap:wrap;gap:5px;min-height:26px}
+.pills span,.chip{font-size:12px;border:1px solid var(--ln);border-radius:99px;padding:2px 10px;color:var(--ink);background:none}
+.pills .sk{width:56px;height:22px;border-color:transparent;background:var(--ln);opacity:.5}
+.precio{margin:auto 0 0;padding-top:12px;font:500 18px var(--sans)}.precio small{color:var(--mu);font-weight:300;font-size:12px}
+.empty{grid-column:1/-1;text-align:center;color:var(--mu);padding:50px 0}
+footer{border-top:1px solid var(--ln);text-align:center;color:var(--mu);font-size:12px;padding:22px 20px 34px}
+footer button{background:none;border:0;color:var(--gold);cursor:pointer;font:inherit;text-decoration:underline}
+dialog{background:var(--bg);color:var(--ink);border:1px solid var(--ln);padding:0;width:min(900px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.x{position:absolute;right:12px;top:6px;background:none;border:0;color:var(--ink);font-size:30px;cursor:pointer;z-index:2}
+.mg{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr)}.md{padding:30px 32px}
+.md h2{margin:0;font:600 38px/1.1 var(--serif)}.car{font-weight:300;color:var(--mu)}
+.md h4{margin:20px 0 6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{cursor:pointer;font-family:inherit}.chip:hover{border-color:var(--gold)}
+.mat{margin-top:14px;padding:12px 14px;background:var(--sf);border-left:2px solid var(--gold);min-height:20px}.mat h4{margin:0 0 4px}.mu{color:var(--mu)}
+.cta{display:inline-block;margin-top:22px;background:var(--ink);color:var(--bg);padding:11px 22px;text-decoration:none;letter-spacing:.15em;font-size:12px;text-transform:uppercase}
+.tools .chip{padding:9px 16px;border-radius:2px;letter-spacing:.1em;font-size:12px;text-transform:uppercase;border-color:var(--gold);color:var(--gold)}
+.rowm{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--ln)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:99;max-width:90vw}#toast.on{opacity:1}
+code{background:var(--sf);padding:1px 5px;border:1px solid var(--ln);font-size:12px}
+@media(max-width:700px){.mg{grid-template-columns:1fr}.tile.big{aspect-ratio:16/10}.md{padding:20px}.logo{font-size:44px}input{min-width:0;flex:1}}
+</style></head>
 <body>
-<header>
-  <div class="logo"><b>PF</b><small>FRANCO PERFUMES</small></div>
-  <div class="filters" id="filters"></div>
-</header>
-<main id="grid" aria-live="polite"></main>
-<script type="module" src="app.js"></script>
-</body>
-</html>
+<header><div class="logo">PF<small>PERFUMES</small></div><p>Colección de fragancias clasificadas por familia olfativa, con su pirámide de notas y componentes.</p></header>
+<div class="wrap">
+ <div class="tools"><div class="tabs" id="tabs"></div><span class="sp"></span>
+  <input id="q" type="search" placeholder="Buscar por nombre, marca o nota (ej. vanilla)" aria-label="Buscar">
+  <select id="fam" aria-label="Familia olfativa"></select>
+  <select id="ord" aria-label="Ordenar"><option value="nombre">A–Z</option><option value="marca">Marca</option><option value="precio">Precio</option></select><button class="chip" onclick="gestionar()">+ Gestionar catálogo</button></div>
+ <div class="count" id="count"></div><div id="msg"></div><div class="grid" id="grid"></div>
+</div>
+<footer>Notas, familias y componentes: <b>Scento Perfume API</b> (scento.com), pirámides publicadas por cada casa o por distribuidores autorizados.<br>Las marcas pertenecen a sus propietarios. Catálogo guardado en una base SQLite local. <button onclick="refrescar()">Actualizar aromas</button></footer>
+<dialog id="dlg"></dialog><dialog id="adm"></dialog><div id="toast" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-asm.js"></script>
+<script>
+/* ============ CONFIGURACIÓN: edita aquí tu catálogo ============ */
+const API = 'https://www.scento.com/api/perfume/v1';   // gratuita, sin clave, CORS abierto
+const MONEDA = '$';
+const WHATSAPP = '';          // ej. '5491122334455' → muestra el botón “Consultar por WhatsApp”
+// [marca, nombre, género (Mujer|Hombre|Unisex), precio]  — los precios son de EJEMPLO; usa null para “Consultar”
+const CATALOGO = [
+ ["Dior","J'adore","Mujer",150],["Chanel","Coco Mademoiselle","Mujer",165],["Lancôme","La Vie Est Belle","Mujer",125],
+ ["Yves Saint Laurent","Black Opium","Mujer",140],["Yves Saint Laurent","Libre","Mujer",145],["Carolina Herrera","Good Girl","Mujer",140],
+ ["Viktor&Rolf","Flowerbomb","Mujer",160],["Parfums de Marly","Delina","Mujer",280],["Dolce&Gabbana","Light Blue","Mujer",115],
+ ["Dior","Sauvage","Hombre",140],["Chanel","Bleu de Chanel","Hombre",155],["Creed","Aventus","Hombre",395],
+ ["Paco Rabanne","1 Million","Hombre",110],["Giorgio Armani","Acqua di Gio","Hombre",120],["Creed","Green Irish Tweed","Hombre",360],
+ ["Parfums de Marly","Pegasus","Hombre",280],["Parfums de Marly","Layton","Unisex",275],["Maison Francis Kurkdjian","Baccarat Rouge 540","Unisex",320],
+ ["Maison Francis Kurkdjian","Oud Satin Mood","Unisex",330],["Tom Ford","Oud Wood","Unisex",260],["Tom Ford","Tobacco Vanille","Unisex",270],
+ ["Le Labo","Santal 33","Unisex",250],["Byredo","Bal d'Afrique","Unisex",230]
+];
+/* ================================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const money = n => n == null ? 'Consultar precio' : MONEDA + ' ' + n.toLocaleString('es-AR');
+const items = [];   // se llena desde la base SQLite (ver iniciarDB)
+const F = {q: '', g: 'Todos', fam: 'Todas', ord: 'nombre'};
+
+/* ---- Cliente de la API con caché local (7 días) para respetar los límites de uso ---- */
+const CK = 'pf_cache_v1', TTL = 7 * 864e5; let cache = {};
+try { cache = JSON.parse(localStorage.getItem(CK) || '{}'); } catch (e) {}
+const BASES = [API, API.replace('//www.', '//')], DIAG = {ok: 0, net: 0, last: ''}; let base = 0, OFFLINE = false;
+const guardar = () => { try { localStorage.setItem(CK, JSON.stringify(cache)); } catch (e) {} };
+async function api(path) {
+  const c = cache[path]; if (c && Date.now() - c.t < TTL) { DIAG.ok++; return c.d; }
+  if (OFFLINE) throw Error('sin conexión');
+  let err;
+  for (let k = 0; k < BASES.length; k++) {
+    const i = (base + k) % BASES.length;
+    for (let t = 0; t < 2; t++) {
+      const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 12000);
+      try {
+        const r = await fetch(BASES[i] + path, {signal: ctl.signal}); clearTimeout(to);
+        if (r.status == 404) { DIAG.ok++; throw Object.assign(Error('404'), {nf: true}); }   // el servidor respondió: hay conexión
+        if (!r.ok) { err = Error('HTTP ' + r.status); await new Promise(s => setTimeout(s, 700 * (t + 1))); continue; }
+        const d = await r.json(); base = i; DIAG.ok++; cache[path] = {t: Date.now(), d}; guardar(); return d;
+      } catch (e) {
+        clearTimeout(to); if (e.nf) throw e; err = e;
+        if (e instanceof TypeError || e.name == 'AbortError') break;   // red o CORS: probar el otro host
+      }
+    }
+  }
+  DIAG.last = `${BASES[base]}${path} → ${err?.name == 'AbortError' ? 'tiempo de espera agotado' : err?.message || err}`;
+  if (!DIAG.ok && ++DIAG.net >= 3) OFFLINE = true;
+  throw err;
+}
+function refrescar() { try { localStorage.removeItem(CK); } catch (e) {} if (db) { db.run('update perfumes set parcial=1'); guardarDB(); } location.reload(); }
+
+/* Busca la fragancia y prueba varias formas de identificador hasta obtener su ficha */
+async function resolver(p) {
+  p.parcial = false; const slug = t => norm(t).replace(/ /g, '-'), cand = []; let m;
+  for (const qq of [p.nombre + ' ' + p.marca, p.nombre]) {
+    try {
+      const s = await api(`/search?q=${encodeURIComponent(qq)}&kind=perfume`), ms = s.detail?.matches || [];
+      m = ms.find(x => norm(x.name) == norm(p.nombre) && norm(x.house).includes(norm(p.marca).split(' ')[0])) || ms.find(x => norm(x.name) == norm(p.nombre));
+      const seg = (m?.page || '').split('/perfumes/')[1]; if (seg) cand.push(seg);
+      if (m) break;
+    } catch (e) {}
+  }
+  cand.push(slug(p.nombre), slug(p.nombre + ' ' + p.marca), p.nombre.toLowerCase(), p.nombre);
+  for (const c of [...new Set(cand)]) {
+    if (OFFLINE) break;
+    try {
+      const d = await api('/perfumes/' + encodeURIComponent(c)), n = d.detail?.name;
+      if (n && (norm(n).includes(norm(p.nombre)) || norm(p.nombre).includes(norm(n)))) { p.slug = c; return d; }
+    } catch (e) {}
+  }
+  if (m) { p.parcial = true; return {detail: {name: m.name, house: m.house, family: m.family}}; }   // al menos la familia
+  return null;
+}
+const piramide = p => { const y = p.d?.detail?.pyramid; return y && (y.top?.length || y.heart?.length || y.base?.length) ? y : null; };
+const notas = p => { const y = piramide(p), n = p.d?.detail?.notes; return y ? [...(y.top || []), ...(y.heart || []), ...(y.base || [])] : Array.isArray(n) ? n : []; };
+
+/* ---- Presentación ---- */
+const PAL = [['#3b2f2a','#7a5c3e'],['#1f3a3d','#4f7a73'],['#40263a','#8a5a78'],['#2b2f45','#5d6aa0'],['#4a3a1d','#b08d3c'],['#2f3b2a','#7c8f5c'],['#4a2323','#a05a4a'],['#2a2a2a','#6b6b6b'],['#1f3347','#5b8db3'],['#3d3226','#9c8467']];
+const tile = p => { const f = p.d?.detail?.family; let h = 0; for (const c of f || '') h = (h * 31 + c.charCodeAt(0)) % 997; const [a, b] = f ? PAL[h % PAL.length] : ['#2d2a26','#58524a']; return `background:linear-gradient(160deg,${a},${b})`; };
+const BOT = '<svg viewBox="0 0 100 140" aria-hidden="true"><rect x="39" y="6" width="22" height="17" rx="2" fill="currentColor" opacity=".9"/><rect x="45" y="23" width="10" height="9" fill="currentColor" opacity=".55"/><rect x="20" y="32" width="60" height="98" rx="10" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.4"/><text x="50" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="17" letter-spacing="2" fill="currentColor">PF</text></svg>';
+let raf, lastFam = '';
+const render = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); };
+
+function draw() {
+  const fams = [...new Set(items.map(p => p.d?.detail?.family).filter(Boolean))].sort(), fk = fams.join('|');
+  if (fk !== lastFam) { lastFam = fk; $('#fam').innerHTML = '<option>Todas</option>' + fams.map(f => `<option ${f == F.fam ? 'selected' : ''}>${esc(f)}</option>`).join(''); }
+  const q = norm(F.q);
+  let r = items.filter(p => (F.g == 'Todos' || p.genero == F.g) && (F.fam == 'Todas' || p.d?.detail?.family == F.fam) &&
+    (!q || norm([p.marca, p.nombre, p.d?.detail?.family, ...notas(p)].join(' ')).includes(q)));
+  r.sort((a, b) => F.ord == 'precio' ? (a.precio ?? 1e9) - (b.precio ?? 1e9) : (a[F.ord] || '').localeCompare(b[F.ord] || '', 'es') || a.nombre.localeCompare(b.nombre, 'es'));
+  $('#count').textContent = `${r.length} ${r.length == 1 ? 'fragancia' : 'fragancias'}`;
+  $('#grid').innerHTML = r.map(p => { const d = p.d?.detail, n = notas(p).slice(0, 4);
+    return `<article class="card" tabindex="0" role="button" onclick="abrir(${p.id})" onkeydown="if(event.key=='Enter')abrir(${p.id})">
+     <div class="tile" style="${tile(p)}">${BOT}<span class="gen">${p.genero}</span></div>
+     <div class="info"><p class="marca">${esc(p.marca)}</p><h3>${esc(p.nombre)}</h3>
+     <p class="meta">${d ? [d.family, d.concentration].filter(Boolean).map(esc).join(' · ') : p.listo ? 'Datos olfativos no disponibles' : 'Cargando…'}</p>
+     <div class="pills">${p.listo ? n.map(x => `<span>${esc(x)}</span>`).join('') : '<span class="sk"></span><span class="sk"></span><span class="sk"></span>'}</div>
+     <p class="precio">${money(p.precio)}</p></div></article>`; }).join('') || '<p class="empty">No hay fragancias que coincidan con la búsqueda.</p>';
+}
+const T = {spring:'Primavera',summer:'Verano',autumn:'Otoño',winter:'Invierno',day:'Día',evening:'Noche',night:'Noche'};
+const chips = a => (a || []).map(n => `<button class="chip" data-n="${esc(n)}">${esc(n)}</button>`).join('');
+
+async function abrir(i) {
+  const p = items.find(x => x.id == i), d = p.d?.detail, y = piramide(p), L = {top: 'Notas de salida', heart: 'Notas de corazón', base: 'Notas de fondo'};
+  const wa = WHATSAPP ? `<a class="cta" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, me interesa ${p.nombre} (${p.marca}).`)}">Consultar por WhatsApp</a>` : '';
+  $('#dlg').innerHTML = `<button class="x" onclick="$('#dlg').close()" aria-label="Cerrar">×</button><div class="mg">
+   <div class="tile big" style="${tile(p)}">${BOT}<span class="gen">${p.genero}</span></div><div class="md">
+   <p class="marca">${esc(p.marca)}</p><h2>${esc(p.nombre)}</h2>
+   <p class="meta">${d ? [d.family, d.subfamily, d.concentration, d.year].filter(Boolean).map(esc).join(' · ') : ''}</p>
+   <p class="car">${d ? esc(d.character || (p.parcial ? 'La ficha completa de esta fragancia no está disponible por ahora.' : '')) : 'No encontramos datos olfativos verificados para esta fragancia.'}</p>
+   ${y ? ['top', 'heart', 'base'].filter(k => y[k]?.length).map(k => `<h4>${L[k]}</h4><div class="chips">${chips(y[k])}</div>`).join('') : notas(p).length ? `<h4>Notas</h4><div class="chips">${chips(notas(p))}</div>` : ''}
+   ${d?.signature_materials?.length ? `<h4>Componentes clave</h4><div class="chips">${chips(d.signature_materials)}</div>` : ''}
+   <div class="mat" id="mat"><span class="mu">Toca una nota o componente para ver su ficha.</span></div>
+   ${d?.character_words?.length ? `<h4>Carácter</h4><p>${d.character_words.map(esc).join(' · ')}</p>` : ''}
+   ${d?.wears ? `<h4>Cuándo usarlo</h4><p>${[...(d.wears.seasons || []), ...(d.wears.hours || [])].map(x => T[x] || x).filter((x, k, a) => a.indexOf(x) == k).map(esc).join(' · ')}</p>` : ''}
+   <div id="sim"></div><p style="margin:18px 0 0;font-size:22px;font-family:var(--serif)">${money(p.precio)}</p>${wa}
+   ${db ? `<h4>Administrar</h4><div class="chips" style="align-items:center"><select id="eg">${['Mujer', 'Hombre', 'Unisex'].map(g => `<option ${g == p.genero ? 'selected' : ''}>${g}</option>`).join('')}</select><input id="ep" type="number" min="0" step="any" placeholder="Precio" value="${p.precio ?? ''}" style="width:110px"><button class="chip" onclick="editar(${p.id})">Guardar</button><button class="chip" onclick="quitar(${p.id},this)">Quitar del catálogo</button></div>` : ''}</div></div>`;
+  $('#dlg').showModal();
+  if (p.slug) similares(p);
+}
+async function mat(n) {
+  const b = $('#mat'); b.innerHTML = '<span class="mu">Consultando…</span>';
+  const slug = n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  for (const c of [slug, n]) {
+    try {
+      const r = await api('/materials/' + encodeURIComponent(c)), m = r.detail;
+      if (m?.name) { const tipo = {synthetic: 'Sintético', natural: 'Natural'}[m.natural_or_synthetic];
+        b.innerHTML = `<h4>${esc(m.name)}</h4><p style="margin:0">${esc(m.smells_like || r.lede || '')}</p><p class="mu" style="margin:4px 0 0;font-size:13px">${[m.family, tipo, m.origin].filter(Boolean).map(esc).join(' · ')}${m.pairs_well_with?.length ? ' — Combina con: ' + m.pairs_well_with.map(esc).join(', ') : ''}</p>`; return; }
+    } catch (e) {}
+  }
+  b.innerHTML = '<span class="mu">Sin ficha disponible para este componente.</span>';
+}
+async function similares(p) {
+  try {
+    const r = await api(`/perfumes/${encodeURIComponent(p.slug)}/neighbours`), ns = (r.detail?.neighbours || []).slice(0, 3), s = $('#sim');
+    if (s && ns.length) s.innerHTML = `<h4>Fragancias similares</h4>` + ns.map(x => `<p style="margin:0 0 6px"><b>${esc(x.name)}</b> · ${esc(x.house)} <span class="mu">— comparte ${(x.shared || []).slice(0, 3).map(esc).join(', ')}</span></p>`).join('');
+  } catch (e) {}
+}
+
+/* ---- Eventos ---- */
+$('#tabs').innerHTML = ['Todos', 'Mujer', 'Hombre', 'Unisex'].map(g => `<button class="${g == 'Todos' ? 'on' : ''}" data-g="${g}">${g}</button>`).join('');
+$('#tabs').onclick = e => { const g = e.target.dataset.g; if (!g) return; F.g = g; document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.g == g)); render(); };
+$('#q').oninput = e => { F.q = e.target.value; render(); };
+$('#fam').onchange = e => { F.fam = e.target.value; render(); };
+$('#ord').onchange = e => { F.ord = e.target.value; render(); };
+$('#dlg').addEventListener('click', e => { const c = e.target.closest('[data-n]'); if (c) mat(c.dataset.n); else if (e.target.id == 'dlg') $('#dlg').close(); });
+
+/* ---- Aviso de estado: dice qué falló en realidad ---- */
+function aviso() {
+  const n = items.filter(p => p.d && !p.parcial).length;
+  $('#msg').innerHTML = (!DIAG.ok && DIAG.last)
+    ? `<div class="banner"><b>No se pudo conectar con la API de aromas.</b><br>Detalle técnico: <code>${esc(DIAG.last || 'sin respuesta')}</code><br><span class="mu">Revisa tu conexión y que ningún bloqueador, antivirus o red corporativa filtre scento.com. Si el detalle dice “Failed to fetch”, el navegador bloquea la petición desde un archivo local: abre una terminal en la carpeta del catálogo, ejecuta <code>python -m http.server 8000</code> y entra a http://localhost:8000.</span> <button class="chip" onclick="location.reload()">Reintentar</button></div>`
+    : n < items.length ? `<div class="banner">Se cargaron los aromas de ${n} de ${items.length} fragancias; el resto no figura en la base de datos de la API.</div>` : '';
+}
+
+/* ============ Base de datos SQLite local (sql.js) ============
+   Cada fila replica los campos de "detail" de la API (house, name, family, pyramid…).
+   pyramid, notes, character_words, wears y signature_materials se guardan como JSON.
+   genero y precio son datos propios de PF. */
+let db = null, SQLJS = null, gt;
+const SCHEMA = `CREATE TABLE IF NOT EXISTS perfumes(
+ id INTEGER PRIMARY KEY, slug TEXT, house TEXT NOT NULL, name TEXT NOT NULL,
+ genero TEXT NOT NULL DEFAULT 'Unisex', precio REAL,
+ year INTEGER, perfumer TEXT, concentration TEXT, family TEXT, subfamily TEXT, character TEXT,
+ pyramid TEXT, notes TEXT, character_words TEXT, wears TEXT, signature_materials TEXT,
+ parcial INTEGER NOT NULL DEFAULT 0, actualizado TEXT, UNIQUE(house, name));
+CREATE INDEX IF NOT EXISTS ix_perfumes_family ON perfumes(family);`;
+const COLS = ['slug','house','name','genero','precio','year','perfumer','concentration','family','subfamily','character','pyramid','notes','character_words','wears','signature_materials','parcial'];
+const JC = ['pyramid','notes','character_words','wears','signature_materials'];
+const J = v => v == null ? null : typeof v == 'string' ? v : JSON.stringify(v);
+const P = t => { try { return t ? JSON.parse(t) : null; } catch (e) { return null; } };
+const q = (sql, a = []) => { const st = db.prepare(sql); st.bind(a); const r = []; while (st.step()) r.push(st.getAsObject()); st.free(); return r; };
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 3500); const a = $('#ast'); if (a) a.textContent = m; }
+function guardarDB(diferido) {
+  clearTimeout(gt);
+  const f = () => { try { const u = db.export(); let s = ''; for (let i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); localStorage.setItem('pf_db_v1', btoa(s)); } catch (e) { toast('No se pudo guardar en el navegador: exporta la base .sqlite para no perder cambios.'); } };
+  diferido ? gt = setTimeout(f, 300) : f();
+}
+function filaAItem(r) {
+  const x = {name: r.name, house: r.house, year: r.year, perfumer: r.perfumer, concentration: r.concentration, family: r.family, subfamily: r.subfamily, character: r.character,
+    pyramid: P(r.pyramid), notes: P(r.notes), character_words: P(r.character_words), wears: P(r.wears), signature_materials: P(r.signature_materials)};
+  const tiene = r.family || r.pyramid || r.notes || r.character;
+  return {id: r.id, marca: r.house, nombre: r.name, genero: r.genero, precio: r.precio, slug: r.slug, parcial: !!r.parcial, d: tiene ? {detail: x} : null, listo: !!tiene && !r.parcial};
+}
+const cargarItems = () => { items.length = 0; items.push(...q('select * from perfumes order by id').map(filaAItem)); };
+function guardarDetalle(p, d) {
+  const x = d.detail;
+  if (x.name && x.house && (x.name != p.nombre || x.house != p.marca)) {   // la base adopta el nombre canónico de la API
+    try { db.run('update perfumes set house=?,name=? where id=?', [x.house, x.name, p.id]); p.marca = x.house; p.nombre = x.name; } catch (e) {}
+  }
+  db.run(`update perfumes set slug=?,year=?,perfumer=?,concentration=?,family=?,subfamily=?,character=?,pyramid=?,notes=?,character_words=?,wears=?,signature_materials=?,parcial=?,actualizado=datetime('now') where id=?`,
+    [p.slug || null, x.year ?? null, x.perfumer ?? null, x.concentration ?? null, x.family ?? null, x.subfamily ?? null, x.character ?? null, J(x.pyramid), J(x.notes), J(x.character_words), J(x.wears), J(x.signature_materials), p.parcial ? 1 : 0, p.id]);
+}
+/* Inserta o actualiza una fila a partir de un objeto con los campos de la API (+ genero, precio) */
+function upsert(o) {
+  const ex = q('select genero,precio from perfumes where house=? and name=?', [o.house, o.name])[0], r = {...o, genero: o.genero || ex?.genero || 'Unisex', precio: o.precio ?? ex?.precio ?? null};
+  db.run(`insert or replace into perfumes(${COLS.join(',')},actualizado) values(${COLS.map(() => '?').join(',')},datetime('now'))`,
+    COLS.map(c => JC.includes(c) ? J(r[c]) : c == 'parcial' ? +!!r[c] : (r[c] ?? null)));
+}
+const memoria = () => CATALOGO.map(([marca, nombre, genero, precio], id) => ({id, marca, nombre, genero, precio, d: null, listo: false, slug: null, parcial: false}));
+async function iniciarDB() {
+  if (typeof initSqlJs == 'undefined') { items.push(...memoria()); DIAG.last = 'No se cargó SQLite (sql.js): el catálogo funciona sin guardado.'; return; }
+  SQLJS = await initSqlJs(); let bin = null;
+  try { const b = localStorage.getItem('pf_db_v1'); if (b) bin = Uint8Array.from(atob(b), c => c.charCodeAt(0)); } catch (e) {}
+  try { db = new SQLJS.Database(bin || undefined); db.run(SCHEMA); } catch (e) { db = new SQLJS.Database(); db.run(SCHEMA); }
+  if (!q('select count(*) n from perfumes')[0].n) { for (const [m, n, g, pr] of CATALOGO) db.run('insert or ignore into perfumes(house,name,genero,precio) values(?,?,?,?)', [m, n, g, pr]); guardarDB(); }
+  cargarItems();
+}
+/* Completa con la API las fragancias sin ficha (o con ficha parcial); el resultado queda guardado en SQLite */
+async function enriquecer(lista) {
+  const cola = [...lista];
+  await Promise.all([0, 1].map(async () => { for (let p; p = cola.shift();) {
+    const antes = p.parcial, viejo = !!piramide(p), d = await resolver(p).catch(() => null);
+    if (d && !(p.parcial && viejo)) { p.d = d; if (db) guardarDetalle(p, d); } else p.parcial = antes;
+    p.listo = true; render(); } }));
+  if (db) guardarDB(true);
+}
+
+/* ---- Gestión del catálogo: buscar en la API, importar y exportar ---- */
+let BR = {q: '', ms: [], tok: null};
+function gestionar() {
+  if (!db) return toast('SQLite no está disponible: revisa tu conexión y recarga la página.');
+  $('#adm').innerHTML = `<button class="x" onclick="$('#adm').close()" aria-label="Cerrar">×</button><div class="md" style="padding:28px 30px">
+   <h2>Gestionar catálogo</h2><p class="mu" id="ast" style="min-height:22px;margin:4px 0 0"></p>
+   <h4>Agregar desde la API</h4>
+   <div style="display:flex;gap:8px"><input id="bq" style="flex:1;min-width:0" placeholder="Nombre, casa o nota (ej. Tom Ford, oud)" onkeydown="if(event.key=='Enter')buscarAPI()"><button class="chip" onclick="buscarAPI()">Buscar</button></div>
+   <div id="bres" class="mu" style="margin-top:8px"></div>
+   <h4>Importar</h4><p class="mu" style="margin:0 0 8px;font-size:13px">Un <code>.json</code> con el formato de la API (respuesta de <code>/perfumes/…</code>, una lista de ellas o de <code>/search</code>) o una base <code>.sqlite</code> exportada desde este catálogo. Si ya existe, se actualiza.</p>
+   <input type="file" accept=".json,.sqlite,.db" onchange="importar(this.files[0])">
+   <h4>Exportar</h4><div class="chips"><button class="chip" onclick="exportar('sqlite')">Base SQLite (.sqlite)</button><button class="chip" onclick="exportar('json')">JSON compatible con la API</button></div></div>`;
+  $('#adm').showModal();
+}
+async function buscarAPI(mas) {
+  const t = mas ? BR.q : $('#bq').value.trim(), o = $('#bres'); if (!t) return;
+  if (!mas) { BR = {q: t, ms: [], tok: null}; o.textContent = 'Buscando…'; }
+  try {
+    const s = await api(`/search?q=${encodeURIComponent(t)}&kind=perfume${mas && BR.tok ? '&continuation=' + encodeURIComponent(BR.tok) : ''}`);
+    BR.ms.push(...(s.detail?.matches || []).filter(m => (m.kind || 'perfume') == 'perfume')); BR.tok = s.continuation || null; pintarRes();
+  } catch (e) { o.textContent = 'No se pudo consultar la API: ' + (e.message || e); }
+}
+function pintarRes() {
+  $('#bres').innerHTML = (BR.ms.map((m, k) => { const ya = items.some(p => p.marca == m.house && p.nombre == m.name);
+    return `<div class="rowm"><span><b>${esc(m.name)}</b> · ${esc(m.house)} <span class="mu">${esc(m.family || '')}</span></span><span><select id="g${k}"><option>Unisex</option><option>Mujer</option><option>Hombre</option></select> <button class="chip" id="a${k}" onclick="agregar(${k})" ${ya ? 'disabled' : ''}>${ya ? 'En el catálogo' : 'Agregar'}</button></span></div>`; }).join('') || 'No se encontraron resultados.')
+    + (BR.tok ? '<p><button class="chip" onclick="buscarAPI(true)">Ver más resultados</button></p>' : '');
+}
+async function agregar(k) {
+  const m = BR.ms[k], b = $('#a' + k), g = $('#g' + k).value; b.disabled = true; b.textContent = 'Agregando…';
+  db.run('insert or ignore into perfumes(house,name,genero) values(?,?,?)', [m.house, m.name, g]);
+  const id = q('select id from perfumes where house=? and name=?', [m.house, m.name])[0].id;
+  let p = items.find(x => x.id == id);
+  if (!p) { p = {id, marca: m.house, nombre: m.name, genero: g, precio: null, d: null, listo: false, slug: null, parcial: false}; items.push(p); }
+  guardarDB(); render(); await enriquecer([p]); guardarDB(); b.textContent = 'Agregado ✓'; toast(`${m.name} agregado al catálogo.`);
+}
+async function importar(f) {
+  if (!f) return; let n = 0;
+  try {
+    if (/\.(sqlite|db)$/i.test(f.name)) {
+      const o = new SQLJS.Database(new Uint8Array(await f.arrayBuffer())), st = o.prepare('select * from perfumes');
+      while (st.step()) { upsert(st.getAsObject()); n++; } st.free(); o.close();
+    } else {
+      const j = JSON.parse(await f.text());
+      for (const e of Array.isArray(j) ? j : [j]) {
+        const lista = e.detail?.matches ? e.detail.matches.filter(m => (m.kind || 'perfume') == 'perfume').map(m => ({detail: {name: m.name, house: m.house, family: m.family}, parcial: 1})) : [e];
+        for (const it of lista) { const x = it.detail || it, pf = it.pf || it; if (!x.name || !x.house) continue; upsert({...x, genero: pf.genero, precio: pf.precio, slug: pf.slug || x.slug, parcial: it.parcial}); n++; }
+      }
+    }
+  } catch (e) { return toast('Archivo no válido: ' + e.message); }
+  guardarDB(); cargarItems(); render(); toast(`${n} fragancias importadas.`);
+  enriquecer(items.filter(p => !p.listo)).then(aviso);
+}
+function exportar(t) {
+  let blob, nombre;
+  if (t == 'sqlite') { blob = new Blob([db.export()], {type: 'application/x-sqlite3'}); nombre = 'pf-perfumes.sqlite'; }
+  else { blob = new Blob([JSON.stringify(items.filter(p => p.d).map(p => ({folio: 'perfume-portrait', detail: p.d.detail, pf: {genero: p.genero, precio: p.precio, slug: p.slug}})), null, 2)], {type: 'application/json'}); nombre = 'pf-perfumes.json'; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('Archivo generado: ' + nombre);
+}
+function editar(id) {
+  const p = items.find(x => x.id == id), v = $('#ep').value; p.genero = $('#eg').value; p.precio = v === '' ? null : Number(v);
+  db.run('update perfumes set genero=?,precio=? where id=?', [p.genero, p.precio, id]); guardarDB(); $('#dlg').close(); render(); toast('Cambios guardados.');
+}
+function quitar(id, b) {
+  if (!b.dataset.s) { b.dataset.s = 1; b.textContent = '¿Seguro? Pulsa de nuevo'; return; }
+  db.run('delete from perfumes where id=?', [id]); items.splice(items.findIndex(x => x.id == id), 1); guardarDB(); $('#dlg').close(); render(); toast('Fragancia quitada del catálogo.');
+}
+
+/* ---- Arranque ---- */
+(async () => {
+  try { await iniciarDB(); } catch (e) { DIAG.last = 'SQLite: ' + e.message; if (!items.length) items.push(...memoria()); }
+  render(); await enriquecer(items.filter(p => !p.listo)); aviso();
+})();
+</script></body></html>

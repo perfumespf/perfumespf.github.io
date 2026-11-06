@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel · Franco Perfumes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../public/styles.css">
+<style>
+ .panel{max-width:760px;margin:32px auto;padding:0 16px;display:grid;gap:16px}
+ form,.box{background:#fff;border:1px solid var(--line);padding:24px;display:grid;gap:14px}
+ label{display:grid;gap:6px;font-size:13px;font-weight:500}
+ input,textarea{padding:10px;border:1px solid var(--line);border-radius:6px;font:14px 'Inter'}
+ input[type=checkbox]{width:20px;height:20px}
+ .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ .sugs{list-style:none;margin:0;padding:0;border:1px solid var(--line)}.sugs li{padding:10px;cursor:pointer}.sugs li:hover{background:#f3f0e8}
+ table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+ [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="panel">
+ <form id="login"><h1 class="serif">Ingreso del operador</h1>
+  <label>Email<input type="email" name="email" required></label>
+  <label>Contraseña<input type="password" name="pass" required></label>
+  <button class="btn">Ingresar</button></form>
+
+ <form id="alta" hidden>
+  <h1 class="serif">Nuevo perfume</h1>
+  <label>Nombre<input name="nombre" id="nombre" autocomplete="off" required></label>
+  <ul class="sugs" id="sugs" hidden></ul>
+  <div class="row"><label>Marca<input name="marca" required></label>
+   <label>Familia olfativa<input name="familia"></label></div>
+  <div class="row">
+   <label>Concentración<select name="concentracion"><option>EDP</option><option>EDT</option><option>OTRO</option></select></label>
+   <label>Género<select name="genero"><option value="hombre">Hombre</option><option value="mujer">Mujer</option><option value="unisex">Unisex</option></select></label></div>
+  <label>Descripción (en español)<textarea name="descripcion" rows="4"></textarea></label>
+  <label>Notas olfativas (en español)<input name="notas" placeholder="Salida, corazón, fondo"></label>
+  <label>Imagen<input type="file" name="imagen" accept="image/*" required></label>
+  <div class="row"><label>Precio contado (Gs.)<input type="number" name="precio" id="precio" min="1000" step="1000" required></label>
+   <label>Admite cuotas<input type="checkbox" name="cuotas" id="admite"></label></div>
+  <div id="simulador" hidden class="box">
+   <div class="row"><label>Entrega (múltiplo de 100.000)<input type="number" id="entrega" min="0" step="100000" value="0"></label>
+    <button type="button" class="btn" id="sugerir" style="align-self:end">Sugerir entrega</button></div>
+   <div id="resumen"></div><table id="tabla"></table>
+  </div>
+  <p id="msg" role="status"></p>
+  <button class="btn">Guardar perfume</button>
+ </form>
+</div>
+<script type="module" src="admin.js"></script>
+</body>
+</html>

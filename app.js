@@ -1,6 +1,6 @@
-import { db } from '../shared/supabase.js';
-import { WHATSAPP } from '../shared/config.js';
-import { fmt, textoPlan } from '../shared/cuotas.js';
+import { db } from './shared/supabase.js';
+import { WHATSAPP } from './shared/config.js';
+import { fmt, textoPlan } from './shared/cuotas.js';
 
 const FILTROS = {
   estado: [['todos','Todos'],['disponible','Disponible'],['agotado','Agotado']],

@@ -1,5 +1,5 @@
 import { db } from '../shared/supabase.js';
-import { PERFUME_API_URL } from '../shared/config.js';
+import { SCENTO_BASES } from '../shared/config.js';
 import { fmt, cola, entregaBase, entregaSugerida, entregaDesdeOperador, generarPlanes, textoPlan } from '../shared/cuotas.js';
 
 const $ = (id) => document.getElementById(id);
@@ -20,51 +20,66 @@ $('login').onsubmit = async (e) => {
 };
 sesion();
 
-// ---- API de fragancias + traducción ----
-const debounce = (fn, ms = 350) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+// ---- API Scento (gratuita, sin clave, CORS abierto) + traducción ----
+const debounce = (fn, ms = 400) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+let detalleAPI = null;
 
-// MyMemory (gratis, ~500 caracteres por consulta): se parte por oraciones.
+async function scento(path) {
+  let err;
+  for (const base of SCENTO_BASES) {            // mismo respaldo de host que el catálogo anterior
+    try { const r = await fetch(base + path); if (r.ok) return r.json(); err = new Error('HTTP ' + r.status); }
+    catch (e) { err = e; }
+  }
+  throw err;
+}
+
+// MyMemory (gratis, ~500 caracteres por consulta). Los textos aquí son cortos (familia, notas).
 async function traducir(texto) {
   if (!texto) return '';
-  const partes = texto.match(/[^.!?]+[.!?]*/g) ?? [texto];
-  const out = []; let bloque = '';
-  const enviar = async () => {
-    if (!bloque) return;
-    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(bloque)}&langpair=en|es`).then(r => r.json());
-    out.push(r.responseData?.translatedText ?? bloque); bloque = '';
-  };
-  for (const p of partes) { if ((bloque + p).length > 450) await enviar(); bloque += p; }
-  await enviar();
-  return out.join(' ');
+  try {
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=en|es`).then(r => r.json());
+    return r.responseData?.translatedText ?? texto;
+  } catch { return texto; }
 }
 
 $('nombre').addEventListener('input', debounce(async (e) => {
   const q = e.target.value.trim(); const ul = $('sugs');
   if (q.length < 3) return (ul.hidden = true);
   try {
-    // Contrato esperado: [{ name, brand, gender, concentration, family, description, notes:{top,heart,base}, image }]
-    const res = await fetch(`${PERFUME_API_URL}?q=${encodeURIComponent(q)}`).then(r => r.json());
-    ul.replaceChildren(...res.slice(0, 6).map(r => {
-      const li = Object.assign(document.createElement('li'), { textContent:`${r.name} — ${r.brand}` });
-      li.onclick = () => autocompletar(r);
+    const s = await scento(`/search?q=${encodeURIComponent(q)}&kind=perfume`);
+    const matches = s.detail?.matches ?? [];
+    ul.replaceChildren(...matches.slice(0, 8).map(m => {
+      const li = Object.assign(document.createElement('li'), { textContent:`${m.name} — ${m.house}` });
+      li.onclick = () => autocompletar(m);
       return li;
     }));
-    ul.hidden = !res.length;
-  } catch { msg('No se pudo consultar la API de fragancias. Podés completar los datos a mano.'); }
+    ul.hidden = !matches.length;
+  } catch { msg('No se pudo consultar la API de aromas. Podés completar los datos a mano.'); }
 }));
 
-async function autocompletar(r) {
+async function autocompletar(m) {
   const f = $('alta').elements;
-  $('sugs').hidden = true;
-  f.nombre.value = r.name; f.marca.value = r.brand;
-  if (r.concentration) f.concentracion.value = /parfum|edp/i.test(r.concentration) ? 'EDP' : /toilette|edt/i.test(r.concentration) ? 'EDT' : 'OTRO';
-  if (r.gender) f.genero.value = /women|mujer|female/i.test(r.gender) ? 'mujer' : /men|hombre|male/i.test(r.gender) ? 'hombre' : 'unisex';
+  $('sugs').hidden = true; msg('Cargando datos del perfume…');
+  let d = { name:m.name, house:m.house, family:m.family };
+  try {
+    const slug = (m.page || '').split('/perfumes/')[1];
+    if (slug) d = (await scento('/perfumes/' + slug)).detail ?? d;
+  } catch { /* queda la ficha parcial: al menos nombre, casa y familia */ }
+  detalleAPI = d;
+
+  f.nombre.value = d.name; f.marca.value = d.house;
+  if (d.concentration) f.concentracion.value = /parfum|edp/i.test(d.concentration) ? 'EDP' : /toilette|edt/i.test(d.concentration) ? 'EDT' : 'OTRO';
+
   msg('Traduciendo al español…');
-  const notas = Object.values(r.notes ?? {}).flat().join(', ');
-  const [fam, desc, nts] = await Promise.all([traducir(r.family), traducir(r.description), traducir(notas)]);
+  const py = d.pyramid ?? {};
+  const listaNotas = [...(py.top ?? []), ...(py.heart ?? []), ...(py.base ?? [])];
+  const [fam, nts] = await Promise.all([traducir(d.family), traducir(listaNotas.join(', '))]);
   f.familia.value = fam;
-  f.descripcion.value = desc || `${r.name} de ${r.brand} es una fragancia de la familia olfativa ${fam}.`;
-  f.notas.value = nts; msg('');
+  f.notas.value = nts;
+  // La API no trae descripción ni género: se arma con el mismo formato del catálogo actual.
+  const para = { hombre:'Hombres', mujer:'Mujeres', unisex:'Hombres y Mujeres' }[f.genero.value];
+  f.descripcion.value = `${d.name} de ${d.house} es una fragancia de la familia olfativa ${fam}${para ? ' para ' + para : ''}.`;
+  msg('Datos cargados. Revisá el género y subí la imagen.');
 }
 
 // ---- Simulador de entrega ----
@@ -98,7 +113,8 @@ $('alta').onsubmit = async (e) => {
   const { data, error } = await db.from('perfumes').insert({
     nombre:f.nombre.value, marca:f.marca.value, concentracion:f.concentracion.value, genero:f.genero.value,
     precio_contado:Number(f.precio.value), imagen_url, familia_olfativa:f.familia.value,
-    descripcion:f.descripcion.value, notas:{ texto:f.notas.value }, admite_cuotas:f.cuotas.checked,
+    descripcion:f.descripcion.value, notas:{ texto:f.notas.value, piramide:detalleAPI?.pyramid ?? null },
+    detalles: detalleAPI ? { year:detalleAPI.year, perfumer:detalleAPI.perfumer, concentration:detalleAPI.concentration, subfamily:detalleAPI.subfamily, slug:detalleAPI.slug } : {}, admite_cuotas:f.cuotas.checked,
   }).select().single();
   if (error) return msg('Error: ' + error.message);
 
@@ -106,5 +122,5 @@ $('alta').onsubmit = async (e) => {
     const { error: e2 } = await db.from('planes_cuota').insert(planes.map(p => ({ ...p, perfume_id:data.id })));
     if (e2) return msg('Perfume guardado, pero fallaron las cuotas: ' + e2.message);
   }
-  msg('Perfume guardado.'); e.target.reset(); $('simulador').hidden = true;
+  msg('Perfume guardado.'); detalleAPI = null; e.target.reset(); $('simulador').hidden = true;
 };

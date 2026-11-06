@@ -1,0 +1,23 @@
+:root{--ink:#111;--gold:#b8914a;--line:#e4e1da;--bg:#fafaf8;--muted:#777}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink)}
+.serif{font-family:'Playfair Display',serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:28px 16px;display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:center}
+.logo{text-align:center}.logo b{font:900 44px 'Playfair Display',serif;letter-spacing:4px;display:inline-block;padding-bottom:6px;border-bottom:2px solid var(--gold)}
+.logo small{display:block;margin-top:10px;font-size:11px;letter-spacing:.35em;color:var(--muted)}
+.filters{display:flex;flex-direction:column;gap:10px;align-items:center}
+.group{display:flex;gap:8px}
+.chip{font:500 12px 'Inter';padding:9px 18px;background:#fff;border:1px solid var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--gold)}
+.chip:focus-visible,select:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:1400px;margin:32px auto;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:24px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);padding:24px;text-align:center;display:flex;flex-direction:column;gap:8px}
+.card img{width:100%;height:270px;object-fit:contain}
+.estado{font-size:15px}.estado.agotado{color:#a33}
+.card h2{margin:0;font:900 24px 'Playfair Display',serif;text-transform:uppercase}
+.marca{font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.desc{font-size:15px;line-height:1.35;margin:8px 0 14px}
+.btn{align-self:center;background:var(--ink);color:#fff;border:0;padding:12px 28px;font:600 13px 'Inter';letter-spacing:.2em;cursor:pointer;text-decoration:none}
+select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;font:14px 'Inter';background:#f8f8f8}
+.vacio{grid-column:1/-1;text-align:center;color:var(--muted)}
+@media(max-width:600px){main{grid-template-columns:1fr}}
